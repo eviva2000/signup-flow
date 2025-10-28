@@ -52,7 +52,7 @@ export async function registerUserFromSignup(
     // Create verification token
     const verificationToken = VerificationTokenStorage.createToken(user.email);
     
-    // In a real app, you would send the verification email here
+    // Simulating email delivery for verification token
     console.log(`Verification email for ${user.email}: /signup/verify?token=${verificationToken.token}`);
     
     return {
