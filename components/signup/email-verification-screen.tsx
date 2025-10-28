@@ -127,23 +127,22 @@ export default function EmailVerificationScreen({
               {t('verification.message', { email })}
             </p>
             <p className="text-sm text-waitly-neutral-400 mb-6">
-              For testing purposes, use code: <strong>1234</strong>
+              For testing: Check the browser console for the verification link, then copy and paste the token below.
             </p>
           </div>
 
           <form onSubmit={handleCodeSubmit} className="space-y-4 mb-6">
             <div>
               <label htmlFor="verification-code" className="sr-only">
-                Verification Code
+                Verification Token
               </label>
               <input
                 id="verification-code"
                 type="text"
                 value={verificationCode}
                 onChange={(e) => setVerificationCode(e.target.value)}
-                placeholder="Enter verification code"
-                className="w-full px-4 py-3 border border-waitly-neutral-300 rounded-waitly-radius-md focus:ring-2 focus:ring-waitly-primary focus:border-transparent text-center text-lg font-mono tracking-wider"
-                maxLength={4}
+                placeholder="Paste verification token here"
+                className="w-full px-4 py-3 border border-waitly-neutral-300 rounded-waitly-radius-md focus:ring-2 focus:ring-waitly-primary focus:border-transparent text-sm font-mono"
                 autoComplete="one-time-code"
                 aria-describedby={errorMessage ? "verification-error" : undefined}
               />
@@ -158,7 +157,7 @@ export default function EmailVerificationScreen({
               type="submit"
               variant="primary"
               className="w-full"
-              disabled={!verificationCode.trim() || verificationCode.length !== 4}
+              disabled={!verificationCode.trim()}
             >
               Verify Email
             </Button>

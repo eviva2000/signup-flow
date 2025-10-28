@@ -9,3 +9,6 @@ export type { EmailVerificationScreenProps, VerificationStatus } from './email-v
 
 export { ReadyScreen } from './ready-screen';
 export type { ReadyScreenProps } from './ready-screen';
+
+export { ExistingUserPrompt } from './existing-user-prompt';
+export type { ExistingUserPromptProps } from './existing-user-prompt';

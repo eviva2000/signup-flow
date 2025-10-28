@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { UserRegistration } from '../types';
-import { UserStorage, SessionStorage, SessionData } from './storage';
+import { UserStorage, SessionStorage, SessionData, VerificationTokenStorage } from './storage';
 
 // Authentication state interface
 export interface AuthState {
@@ -45,51 +45,50 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   // Initialize authentication state on mount
   useEffect(() => {
+    const initializeAuth = () => {
+      try {
+        const session = SessionStorage.getSession();
+        
+        if (session) {
+          const user = UserStorage.findUserById(session.userId);
+          
+          if (user) {
+            setState({
+              user,
+              session,
+              isLoading: false,
+              isAuthenticated: true,
+            });
+            return;
+          } else {
+            // User not found, clear invalid session
+            SessionStorage.clearSession();
+          }
+        }
+        
+        // No valid session found
+        setState({
+          user: null,
+          session: null,
+          isLoading: false,
+          isAuthenticated: false,
+        });
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+        setState({
+          user: null,
+          session: null,
+          isLoading: false,
+          isAuthenticated: false,
+        });
+      }
+    };
+
     initializeAuth();
   }, []);
 
-  // Initialize authentication from stored session
-  const initializeAuth = () => {
-    try {
-      const session = SessionStorage.getSession();
-      
-      if (session) {
-        const user = UserStorage.findUserById(session.userId);
-        
-        if (user) {
-          setState({
-            user,
-            session,
-            isLoading: false,
-            isAuthenticated: true,
-          });
-          return;
-        } else {
-          // User not found, clear invalid session
-          SessionStorage.clearSession();
-        }
-      }
-      
-      // No valid session found
-      setState({
-        user: null,
-        session: null,
-        isLoading: false,
-        isAuthenticated: false,
-      });
-    } catch (error) {
-      console.error('Error initializing auth:', error);
-      setState({
-        user: null,
-        session: null,
-        isLoading: false,
-        isAuthenticated: false,
-      });
-    }
-  };
-
   // Login function (mock implementation)
-  const login = async (email: string, password?: string): Promise<{ success: boolean; error?: string }> => {
+  const login = async (email: string, _password?: string): Promise<{ success: boolean; error?: string }> => {
     try {
       const user = UserStorage.findUserByEmail(email);
       
@@ -152,9 +151,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // Verify email function
   const verifyEmail = async (token: string): Promise<{ success: boolean; user?: UserRegistration; error?: string }> => {
     try {
-      const { VerificationTokenStorage } = await import('./storage');
-      
-      const verificationToken = VerificationTokenStorage.useToken(token);
+      const verificationToken = VerificationTokenStorage.consumeToken(token);
       
       if (!verificationToken) {
         return { success: false, error: 'Invalid or expired verification token' };
@@ -222,7 +219,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       // In a real implementation, this would send an email
       // For now, we'll just create a verification token that can be used for login
-      const { VerificationTokenStorage } = await import('./storage');
       const token = VerificationTokenStorage.createToken(email, 1); // 1 hour expiration
       
       // In development, log the magic link

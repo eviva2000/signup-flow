@@ -1,28 +1,38 @@
 "use client";
 
 import { useState } from 'react';
-import { SignupForm } from '@/components/signup';
+import { SignupForm, ExistingUserPrompt } from '@/components/signup';
 import { useSignupNavigation } from '@/lib/hooks/use-signup-navigation';
+import { useAuth } from '@/lib/auth';
+import { registerUserFromSignup, checkEmailExists } from '@/lib/auth/signup-integration';
 import type { SignupFormData } from '@/lib/validations/signup';
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [showExistingUser, setShowExistingUser] = useState(false);
+  const [existingUserEmail, setExistingUserEmail] = useState('');
   const { isPending, goToVerify } = useSignupNavigation();
+  const { sendMagicLink } = useAuth();
 
   const handleSignupSubmit = async (data: SignupFormData) => {
     setIsLoading(true);
     try {
-      // TODO: This will be implemented in later tasks
-      // For now, just simulate API call
       console.log('Signup data:', data);
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Check if user already exists
+      if (checkEmailExists(data.email)) {
+        throw new Error('User with this email already exists');
+      }
       
-      // TODO: Handle actual signup logic
-      // - Check if user exists
-      // - Create user registration
-      // - Send verification email
+      // Register user using the authentication system
+      const result = await registerUserFromSignup(data, 'en-GB');
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Registration failed');
+      }
+      
+      console.log('User registered successfully:', result.user);
+      console.log('Verification token:', result.token);
       
       // Navigate to verification page
       goToVerify(data.email);
@@ -36,10 +46,21 @@ export default function SignupPage() {
   };
 
   const handleExistingUser = (email: string) => {
-    // TODO: This will be implemented in task 6
     console.log('Existing user detected:', email);
-    // For now, stay on signup page with existing user indicator
-    // This will be enhanced in task 6 with proper existing user flow
+    setExistingUserEmail(email);
+    setShowExistingUser(true);
+  };
+
+  const handleSendMagicLink = async () => {
+    const result = await sendMagicLink(existingUserEmail);
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to send magic link');
+    }
+  };
+
+  const handleBackToSignup = () => {
+    setShowExistingUser(false);
+    setExistingUserEmail('');
   };
 
   const isFormLoading = isLoading || isPending;
@@ -56,11 +77,19 @@ export default function SignupPage() {
         </div>
       )}
       
-      <SignupForm
-        onSubmit={handleSignupSubmit}
-        isLoading={isFormLoading}
-        onExistingUser={handleExistingUser}
-      />
+      {showExistingUser ? (
+        <ExistingUserPrompt
+          email={existingUserEmail}
+          onSendMagicLink={handleSendMagicLink}
+          onBackToSignup={handleBackToSignup}
+        />
+      ) : (
+        <SignupForm
+          onSubmit={handleSignupSubmit}
+          isLoading={isFormLoading}
+          onExistingUser={handleExistingUser}
+        />
+      )}
     </div>
   );
 }

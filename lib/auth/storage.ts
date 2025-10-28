@@ -24,11 +24,11 @@ export class UserStorage {
       if (!users) return [];
       
       const parsed = JSON.parse(users);
-      return parsed.map((user: any) => ({
+      return parsed.map((user: UserRegistration) => ({
         ...user,
         createdAt: new Date(user.createdAt),
         verifiedAt: user.verifiedAt ? new Date(user.verifiedAt) : undefined,
-        consents: user.consents.map((consent: any) => ({
+        consents: user.consents.map((consent) => ({
           ...consent,
           timestamp: new Date(consent.timestamp),
         })),
@@ -83,10 +83,10 @@ export class UserStorage {
     
     if (userIndex === -1) return null;
 
-    const updatedUser = {
+    const updatedUser: UserRegistration = {
       ...users[userIndex],
       ...updates,
-    };
+    } as UserRegistration;
 
     users[userIndex] = updatedUser;
     this.saveUsers(users);
@@ -195,7 +195,7 @@ export class VerificationTokenStorage {
       if (!tokens) return [];
       
       const parsed = JSON.parse(tokens);
-      return parsed.map((token: any) => ({
+      return parsed.map((token: VerificationToken) => ({
         ...token,
         expiresAt: new Date(token.expiresAt),
       }));
@@ -243,14 +243,15 @@ export class VerificationTokenStorage {
     return tokens.find(token => token.token === tokenString) || null;
   }
 
-  // Use token (mark as used)
-  static useToken(tokenString: string): VerificationToken | null {
+  // Consume token (mark as used)
+  static consumeToken(tokenString: string): VerificationToken | null {
     const tokens = this.getTokens();
     const tokenIndex = tokens.findIndex(token => token.token === tokenString);
     
     if (tokenIndex === -1) return null;
 
     const token = tokens[tokenIndex];
+    if (!token) return null;
     
     // Check if token is expired
     if (token.expiresAt < new Date()) return null;
@@ -259,10 +260,16 @@ export class VerificationTokenStorage {
     if (token.used) return null;
 
     // Mark token as used
-    tokens[tokenIndex] = { ...token, used: true };
+    const updatedToken: VerificationToken = {
+      token: token.token,
+      email: token.email,
+      expiresAt: token.expiresAt,
+      used: true,
+    };
+    tokens[tokenIndex] = updatedToken;
     this.saveTokens(tokens);
     
-    return tokens[tokenIndex];
+    return updatedToken;
   }
 
   // Clean up expired tokens

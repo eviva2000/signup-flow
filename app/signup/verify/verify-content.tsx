@@ -1,15 +1,57 @@
 "use client";
 
-import { useSearchParams } from 'next/navigation';
-import { EmailVerificationScreen } from '@/components/signup';
-import { useSignupNavigation } from '@/lib/hooks/use-signup-navigation';
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
+import { EmailVerificationScreen } from "@/components/signup";
+import { useSignupNavigation } from "@/lib/hooks/use-signup-navigation";
+import { validateVerificationCode } from "@/lib/utils/verification";
 
 export default function VerifyPageContent() {
   const searchParams = useSearchParams();
-  const email = searchParams.get('email') || '';
+  const email = searchParams.get("email") || "";
+  const token = searchParams.get("token");
   const { isPending, goToReady, goToSignup } = useSignupNavigation();
+  const [isAutoVerifying, setIsAutoVerifying] = useState(false);
 
-  const handleVerificationSuccess = (userData?: { name?: string; email?: string }) => {
+  const handleAutoVerification = useCallback(
+    async (verificationToken: string) => {
+      try {
+        const result = await validateVerificationCode(verificationToken);
+
+        if (result.success) {
+          // Verification successful, redirect to ready page
+          goToReady(result.userData?.name);
+        } else {
+          // Verification failed, show error in the verification screen
+          console.error("Auto-verification failed:", result.message);
+          setIsAutoVerifying(false);
+        }
+      } catch (error) {
+        console.error("Auto-verification error:", error);
+        setIsAutoVerifying(false);
+      }
+    },
+    [goToReady]
+  );
+
+  // Auto-verify if token is present in URL
+  useEffect(() => {
+    if (token && !isAutoVerifying) {
+      // Use a timeout to avoid synchronous setState in effect
+      const timeoutId = setTimeout(() => {
+        setIsAutoVerifying(true);
+        handleAutoVerification(token);
+      }, 0);
+
+      return () => clearTimeout(timeoutId);
+    }
+    return undefined;
+  }, [token, isAutoVerifying, handleAutoVerification]);
+
+  const handleVerificationSuccess = (userData?: {
+    name?: string;
+    email?: string;
+  }) => {
     goToReady(userData?.name);
   };
 
@@ -33,6 +75,7 @@ export default function VerifyPageContent() {
         email={email}
         onVerificationSuccess={handleVerificationSuccess}
         onBackToSignup={handleBackToSignup}
+        initialStatus={isAutoVerifying ? "verifying" : "pending"}
       />
     </div>
   );

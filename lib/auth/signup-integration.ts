@@ -171,7 +171,7 @@ export async function handleTokenVerification(
   type: 'verification' | 'magic' = 'verification'
 ): Promise<{ success: boolean; user?: UserRegistration; error?: string }> {
   try {
-    const verificationToken = VerificationTokenStorage.useToken(token);
+    const verificationToken = VerificationTokenStorage.consumeToken(token);
     
     if (!verificationToken) {
       return {

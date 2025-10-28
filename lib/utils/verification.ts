@@ -1,9 +1,8 @@
+import { handleTokenVerification, resendVerificationEmail as resendVerificationEmailAuth } from '@/lib/auth/signup-integration';
+
 // Rate limiting for resend functionality
 const RESEND_COOLDOWN_MS = 60000; // 1 minute
 const resendAttempts = new Map<string, number>();
-
-// Hardcoded verification code for mocked implementation
-const VERIFICATION_CODE = '1234';
 
 export interface VerificationResult {
   success: boolean;
@@ -23,30 +22,37 @@ export interface ResendResult {
 }
 
 /**
- * Validate a verification code
- * In a real implementation, this would validate against server-side storage
+ * Validate a verification token using the authentication system
  */
-export async function validateVerificationCode(code: string): Promise<VerificationResult> {
-  // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
-  
-  // Simple validation against hardcoded code
-  if (code !== VERIFICATION_CODE) {
+export async function validateVerificationCode(token: string): Promise<VerificationResult> {
+  try {
+    // Use the authentication system to verify the token
+    const result = await handleTokenVerification(token, 'verification');
+    
+    if (result.success && result.user) {
+      return {
+        success: true,
+        message: 'Email verified successfully',
+        userData: {
+          name: result.user.firstName,
+          email: result.user.email,
+        },
+      };
+    } else {
+      return {
+        success: false,
+        error: 'invalid',
+        message: result.error || 'Invalid verification token',
+      };
+    }
+  } catch (error) {
+    console.error('Verification error:', error);
     return {
       success: false,
-      error: 'invalid',
-      message: 'Invalid verification code',
+      error: 'network',
+      message: 'Verification failed. Please try again.',
     };
   }
-  
-  return {
-    success: true,
-    message: 'Email verified successfully',
-    userData: {
-      name: 'John', // In real implementation, this would come from the verification token
-      email: 'user@example.com', // In real implementation, this would come from the verification token
-    },
-  };
 }
 
 /**
@@ -67,28 +73,27 @@ export async function resendVerificationEmail(email: string): Promise<ResendResu
     };
   }
   
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return {
-      success: false,
-      error: 'invalid_email',
-      message: 'Invalid email address',
-    };
-  }
-  
   try {
-    // Simulate sending email
-    await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
+    // Use the authentication system to resend verification email
+    const result = await resendVerificationEmailAuth(email);
     
-    // Update rate limiting
-    resendAttempts.set(email, now);
-    
-    return {
-      success: true,
-      message: 'Verification email sent successfully',
-    };
+    if (result.success) {
+      // Update rate limiting
+      resendAttempts.set(email, now);
+      
+      return {
+        success: true,
+        message: 'Verification email sent successfully',
+      };
+    } else {
+      return {
+        success: false,
+        error: 'network',
+        message: result.error || 'Failed to send verification email',
+      };
+    }
   } catch (error) {
+    console.error('Resend verification error:', error);
     return {
       success: false,
       error: 'network',

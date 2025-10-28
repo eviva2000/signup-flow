@@ -3,13 +3,15 @@
 import { useSearchParams } from 'next/navigation';
 import { ReadyScreen } from '@/components/signup/ready-screen';
 import { useSignupNavigation } from '@/lib/hooks/use-signup-navigation';
+import { useAuth } from '@/lib/auth';
 
 export default function ReadyPageContent() {
   const { isPending, goHome } = useSignupNavigation();
   const searchParams = useSearchParams();
+  const { user, isAuthenticated } = useAuth();
   
-  // Get user name from URL params if available (passed from verification)
-  const userName = searchParams.get('name') || undefined;
+  // Get user name from URL params if available (passed from verification) or from auth context
+  const userName = searchParams.get('name') || user?.firstName || undefined;
 
   const handleExploreListings = () => {
     // TODO: This will navigate to the main app when implemented
