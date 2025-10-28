@@ -7,7 +7,7 @@ export async function getTranslations(locale: string, namespace: string = 'commo
   try {
     const translations = await import(`../../public/locales/${locale}/${namespace}.json`);
     return translations.default;
-  } catch (error) {
+  } catch {
     // Fallback to English if translation not found
     if (locale !== defaultLocale) {
       const fallback = await import(`../../public/locales/${defaultLocale}/${namespace}.json`);
