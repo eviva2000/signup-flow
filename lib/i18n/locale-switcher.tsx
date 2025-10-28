@@ -13,10 +13,10 @@ export function LocaleSwitcher({ className }: LocaleSwitcherProps) {
 
   const getLanguageName = (loc: Locale) => {
     switch (loc) {
-      case 'en-GB':
-        return t('locale.english');
-      case 'da-DK':
-        return t('locale.danish');
+      case "en-GB":
+        return t("locale.english");
+      case "da-DK":
+        return t("locale.danish");
       default:
         return loc;
     }
@@ -51,15 +51,16 @@ export function LocaleToggle({ className }: LocaleSwitcherProps) {
   const { locale, setLocale } = useLocale();
   const { t } = useTranslations("signup");
 
-  const otherLocale = locale === 'en-GB' ? 'da-DK' : 'en-GB';
-  const otherLanguageName = otherLocale === 'en-GB' ? t('locale.english') : t('locale.danish');
+  const otherLocale = locale === "en-GB" ? "da-DK" : "en-GB";
+  const otherLanguageName =
+    otherLocale === "en-GB" ? t("locale.english") : t("locale.danish");
 
-  // Type-safe translation with interpolation
-  const tWithInterpolation = (key: string, interpolation: Record<string, string | number>) => {
-    return (t as any)(key, interpolation);
-  };
-
-  const switchText = tWithInterpolation('locale.switchTo', { language: otherLanguageName });
+  // Simple string interpolation without type assertion
+  const switchToTemplate = t("locale.switchTo");
+  const switchText = switchToTemplate.replace(
+    "{{language}}",
+    otherLanguageName
+  );
 
   return (
     <button
