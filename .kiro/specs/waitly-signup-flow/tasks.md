@@ -96,14 +96,14 @@
   - Build mock login functionality for existing users (magic link simulation)
   - _Requirements: 1.1, 2.1, 4.1, 5.1_
 
-- [ ]* 9.1 Write unit tests for authentication system
+- [ ]\* 9.1 Write unit tests for authentication system
 
   - Test user storage and retrieval logic
   - Verify session management and persistence
   - Test authentication state changes and context updates
   - _Requirements: 1.1, 2.1_
 
-- [ ] 10. Implement consent tracking and storage
+- [x] 10. Implement consent tracking and storage
 
   - Create consent storage utilities with localStorage persistence
   - Build consent audit trail with timestamps and IP tracking (mocked)

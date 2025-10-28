@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { EmailVerificationScreen } from "@/components/signup";
 import { useSignupNavigation } from "@/lib/hooks/use-signup-navigation";
+import { LanguageSelector } from "@/components/ui/language-selector";
 import { validateVerificationCode } from "@/lib/utils/verification";
 
 export default function VerifyPageContent() {
@@ -60,7 +61,7 @@ export default function VerifyPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-waitly-neutral-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       {/* Loading overlay for page transitions */}
       {isPending && (
         <div className="fixed inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center">
@@ -71,12 +72,23 @@ export default function VerifyPageContent() {
         </div>
       )}
 
-      <EmailVerificationScreen
-        email={email}
-        onVerificationSuccess={handleVerificationSuccess}
-        onBackToSignup={handleBackToSignup}
-        initialStatus={isAutoVerifying ? "verifying" : "pending"}
-      />
+      {/* Main card container */}
+      <div className="w-full max-w-md">
+        {/* Language selector above the card */}
+        <div className="flex justify-end mb-6">
+          <LanguageSelector />
+        </div>
+        
+        {/* Card */}
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+          <EmailVerificationScreen
+            email={email}
+            onVerificationSuccess={handleVerificationSuccess}
+            onBackToSignup={handleBackToSignup}
+            initialStatus={isAutoVerifying ? "verifying" : "pending"}
+          />
+        </div>
+      </div>
     </div>
   );
 }

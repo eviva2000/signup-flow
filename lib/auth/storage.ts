@@ -1,4 +1,5 @@
 import { UserRegistration, VerificationToken } from '../types';
+import { ConsentStorage } from '../utils/consent';
 
 // Storage keys
 const STORAGE_KEYS = {
@@ -72,6 +73,18 @@ export class UserStorage {
 
     users.push(newUser);
     this.saveUsers(users);
+    
+    // Store consent data separately if consents are provided
+    if (userData.consents && userData.consents.length > 0) {
+      const consentData = {
+        terms: userData.consents.find(c => c.type === 'terms')?.granted || false,
+        privacy: userData.consents.find(c => c.type === 'privacy')?.granted || false,
+        marketing: userData.consents.find(c => c.type === 'marketing')?.granted || false,
+      };
+      
+      // Store consents in the simplified consent storage
+      ConsentStorage.saveUserConsents(userData.email, consentData);
+    }
     
     return newUser;
   }

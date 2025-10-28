@@ -8,7 +8,6 @@ export interface ReadyScreenProps {
   userName?: string | undefined;
   nextActions?: Array<{
     title: string;
-    description: string;
     href: string;
     primary?: boolean;
     onClick?: () => void;
@@ -17,6 +16,7 @@ export interface ReadyScreenProps {
   onCompleteProfile?: () => void;
   onBrowseWaitlists?: () => void;
   isLoading?: boolean;
+  compact?: boolean; // New prop to control layout
 }
 
 export function ReadyScreen({
@@ -26,6 +26,7 @@ export function ReadyScreen({
   onCompleteProfile,
   onBrowseWaitlists,
   isLoading = false,
+  compact = false,
 }: ReadyScreenProps) {
   const { t } = useTranslations('signup');
 
@@ -33,21 +34,18 @@ export function ReadyScreen({
   const defaultActions = [
     {
       title: t('ready.actions.exploreListings'),
-      description: 'Discover available apartments and join waiting lists',
       href: '/listings',
       primary: true,
       onClick: onExploreListings,
     },
     {
       title: t('ready.actions.completeProfile'),
-      description: 'Add more details to improve your apartment matches',
       href: '/profile',
       primary: false,
       onClick: onCompleteProfile,
     },
     {
       title: t('ready.actions.browseWaitlists'),
-      description: 'View and manage your current waiting list positions',
       href: '/waitlists',
       primary: false,
       onClick: onBrowseWaitlists,
@@ -63,10 +61,14 @@ export function ReadyScreen({
     throw new Error('ReadyScreen: No primary action available');
   }
 
+  const containerClass = compact 
+    ? "w-full text-center" 
+    : "min-h-screen bg-waitly-neutral-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8";
+
   return (
-    <div className="min-h-screen bg-waitly-neutral-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className={containerClass}>
       {/* Loading overlay for page transitions */}
-      {isLoading && (
+      {!compact && isLoading && (
         <div className="fixed inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center">
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 border-2 border-waitly-primary border-t-transparent rounded-full animate-spin"></div>
@@ -75,7 +77,7 @@ export function ReadyScreen({
         </div>
       )}
 
-      <div className="w-full max-w-md mx-auto text-center">
+      <div className={compact ? "w-full" : "w-full max-w-md mx-auto text-center"}>
         {/* Success Icon */}
         <div className="mb-8">
           <div className="w-20 h-20 bg-waitly-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -120,12 +122,7 @@ export function ReadyScreen({
           >
             {primaryAction.title}
           </Button>
-          <p 
-            id={`action-${primaryAction.title.replace(/\s+/g, '-').toLowerCase()}-desc`}
-            className="text-sm text-waitly-neutral-500"
-          >
-            {primaryAction.description}
-          </p>
+
         </div>
 
         {/* Secondary Actions */}
@@ -143,29 +140,13 @@ export function ReadyScreen({
                 >
                   {action.title}
                 </Button>
-                <p 
-                  id={`action-${action.title.replace(/\s+/g, '-').toLowerCase()}-desc`}
-                  className="text-xs text-waitly-neutral-500 mt-1"
-                >
-                  {action.description}
-                </p>
+
               </div>
             ))}
           </div>
         )}
 
-        {/* Help Section */}
-        <div className="pt-6 border-t border-waitly-neutral-200">
-          <p className="text-sm text-waitly-neutral-500">
-            Need help getting started?{' '}
-            <a 
-              href="/help" 
-              className="text-waitly-primary hover:text-waitly-primary-hover underline focus:outline-none focus:ring-2 focus:ring-waitly-primary focus:ring-offset-2 rounded"
-            >
-              Visit our help center
-            </a>
-          </p>
-        </div>
+
 
         {/* Branding Footer */}
         <div className="mt-8 pt-6">

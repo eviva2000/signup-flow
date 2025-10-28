@@ -23,12 +23,14 @@ export function ExistingUserPrompt({
   const handleSendMagicLink = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       await onSendMagicLink();
       setMagicLinkSent(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to send magic link");
+      setError(
+        err instanceof Error ? err.message : "Failed to send magic link"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -36,7 +38,7 @@ export function ExistingUserPrompt({
 
   if (magicLinkSent) {
     return (
-      <div className="w-full max-w-md mx-auto">
+      <div className="w-full">
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
             <svg
@@ -64,8 +66,8 @@ export function ExistingUserPrompt({
 
         <div className="bg-blue-50 border border-blue-200 rounded-waitly-md p-4 mb-6">
           <p className="text-sm text-blue-800">
-            We've sent a magic link to <strong>{email}</strong>. 
-            Check your email and click the link to sign in.
+            We&apos;ve sent a magic link to <strong>{email}</strong>. Check your
+            email and click the link to sign in.
           </p>
         </div>
 
@@ -82,7 +84,7 @@ export function ExistingUserPrompt({
   }
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full">
       <div className="text-center mb-8">
         <div className="w-16 h-16 mx-auto mb-4 bg-yellow-100 rounded-full flex items-center justify-center">
           <svg

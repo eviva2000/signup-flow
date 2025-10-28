@@ -111,7 +111,7 @@ export default function EmailVerificationScreen({
   };
 
   return (
-    <div className="w-full max-w-md mx-auto text-center">
+    <div className="w-full text-center">
       {status === 'pending' && (
         <>
           <div className="mb-8">

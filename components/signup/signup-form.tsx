@@ -87,7 +87,7 @@ export function SignupForm({
   const isFormLoading = isLoading || isSubmitting;
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full">
       <div className="mb-8 text-center">
         <h1 className="text-2xl font-bold text-waitly-neutral-900 mb-2">
           {t("title")}

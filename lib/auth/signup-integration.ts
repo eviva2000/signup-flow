@@ -1,38 +1,17 @@
-import { SignupFormData, UserRegistration, ConsentRecord } from '../types';
+import { SignupFormData, UserRegistration } from '../types';
 import { UserStorage, VerificationTokenStorage } from './storage';
+import { ConsentStorage } from '../utils/consent';
 
 // Convert signup form data to user registration data
 export function createUserFromSignupData(
   formData: SignupFormData,
   locale: 'da-DK' | 'en-GB' = 'en-GB'
 ): Omit<UserRegistration, 'id' | 'createdAt'> {
-  // Get mock IP address (in real app, this would come from server)
-  const mockIpAddress = '127.0.0.1';
-  
-  // Create consent records from form data
-  const consents: ConsentRecord[] = [
-    {
-      type: 'terms',
-      granted: formData.consents.terms,
-      timestamp: new Date(),
-      ipAddress: mockIpAddress,
-      version: '1.0',
-    },
-    {
-      type: 'privacy',
-      granted: formData.consents.privacy,
-      timestamp: new Date(),
-      ipAddress: mockIpAddress,
-      version: '1.0',
-    },
-    {
-      type: 'marketing',
-      granted: formData.consents.marketing,
-      timestamp: new Date(),
-      ipAddress: mockIpAddress,
-      version: '1.0',
-    },
-  ];
+  // Create consent records using the new consent storage utilities
+  const consents = ConsentStorage.createConsentRecords(
+    formData.email,
+    formData.consents
+  );
 
   return {
     email: formData.email.toLowerCase(),
