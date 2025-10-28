@@ -1,0 +1,9 @@
+{
+  "loading": "Indlæser...",
+  "error": "Der opstod en fejl",
+  "retry": "Prøv igen",
+  "back": "Tilbage",
+  "next": "Næste",
+  "submit": "Indsend",
+  "cancel": "Annuller"
+}

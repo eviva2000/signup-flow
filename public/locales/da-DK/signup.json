@@ -1,0 +1,23 @@
+{
+  "title": "Tilmeld dig Waitly",
+  "subtitle": "Start din rejse for at finde det perfekte hjem",
+  "form": {
+    "email": {
+      "label": "E-mailadresse",
+      "placeholder": "Indtast din e-mailadresse"
+    },
+    "firstName": {
+      "label": "Fornavn",
+      "placeholder": "Indtast dit fornavn"
+    },
+    "country": {
+      "label": "Land",
+      "placeholder": "Vælg dit land"
+    }
+  },
+  "actions": {
+    "createAccount": "Opret konto",
+    "sendMagicLink": "Send magisk link",
+    "backToSignup": "Tilbage til tilmelding"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "title": "Join Waitly",
+  "subtitle": "Start your journey to find the perfect home",
+  "form": {
+    "email": {
+      "label": "Email address",
+      "placeholder": "Enter your email address"
+    },
+    "firstName": {
+      "label": "First name",
+      "placeholder": "Enter your first name"
+    },
+    "country": {
+      "label": "Country",
+      "placeholder": "Select your country"
+    }
+  },
+  "actions": {
+    "createAccount": "Create account",
+    "sendMagicLink": "Send magic link",
+    "backToSignup": "Back to signup"
+  }
+}
