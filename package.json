@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:i18n": "node scripts/test-i18n.js",
+    "test:i18n:watch": "npm run dev & echo 'Visit http://localhost:3000/test-i18n to test the i18n system'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -15,7 +15,7 @@
   - Create utility functions for email validation and country list management
   - _Requirements: 1.2, 3.4, 6.5_
 
-- [ ] 3. Build internationalization system
+- [x] 3. Build internationalization system
 
   - Set up next-i18next configuration with Danish and English locales
   - Create translation files for signup flow with fallback logic

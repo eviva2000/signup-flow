@@ -4,20 +4,76 @@
   "form": {
     "email": {
       "label": "E-mailadresse",
-      "placeholder": "Indtast din e-mailadresse"
+      "placeholder": "Indtast din e-mailadresse",
+      "error": {
+        "required": "E-mailadresse er påkrævet",
+        "invalid": "Indtast venligst en gyldig e-mailadresse",
+        "exists": "Denne e-mail er allerede registreret"
+      }
     },
     "firstName": {
       "label": "Fornavn",
-      "placeholder": "Indtast dit fornavn"
+      "placeholder": "Indtast dit fornavn",
+      "error": {
+        "required": "Fornavn er påkrævet",
+        "minLength": "Fornavn skal være mindst 2 tegn"
+      }
     },
     "country": {
       "label": "Land",
-      "placeholder": "Vælg dit land"
+      "placeholder": "Vælg dit land",
+      "error": {
+        "required": "Vælg venligst dit land"
+      }
+    },
+    "consents": {
+      "terms": {
+        "label": "Jeg accepterer Vilkår og Betingelser",
+        "link": "Vilkår og Betingelser",
+        "error": "Du skal acceptere Vilkår og Betingelser"
+      },
+      "privacy": {
+        "label": "Jeg accepterer Privatlivspolitikken",
+        "link": "Privatlivspolitik",
+        "error": "Du skal acceptere Privatlivspolitikken"
+      },
+      "marketing": {
+        "label": "Jeg vil gerne modtage marketingkommunikation",
+        "description": "Få opdateringer om nye boliger og Waitly-funktioner"
+      }
     }
   },
   "actions": {
-    "createAccount": "Opret konto",
+    "submit": "Opret konto",
     "sendMagicLink": "Send magisk link",
-    "backToSignup": "Tilbage til tilmelding"
+    "backToSignup": "Tilbage til tilmelding",
+    "resendEmail": "Send bekræftelses-e-mail igen"
+  },
+  "existingUser": {
+    "title": "Konto findes allerede",
+    "message": "Vi fandt en konto med denne e-mailadresse. Du kan logge ind med et magisk link i stedet.",
+    "emailSent": "Magisk link sendt! Tjek din e-mail for at logge ind."
+  },
+  "verification": {
+    "title": "Tjek din e-mail",
+    "message": "Vi har sendt et bekræftelseslink til {{email}}. Klik på linket for at aktivere din konto.",
+    "resendMessage": "Modtog du ikke e-mailen? Tjek din spam-mappe eller anmod om en ny.",
+    "success": "E-mail bekræftet med succes!",
+    "error": "Ugyldigt eller udløbet bekræftelseslink",
+    "expired": "Dette bekræftelseslink er udløbet. Anmod venligst om et nyt."
+  },
+  "ready": {
+    "title": "Velkommen til Waitly!",
+    "message": "Din konto er klar. Lad os hjælpe dig med at finde dit perfekte hjem.",
+    "actions": {
+      "completeProfile": "Fuldfør din profil",
+      "exploreListings": "Udforsk boliger",
+      "browseWaitlists": "Gennemse ventelister"
+    }
+  },
+  "locale": {
+    "switchTo": "Skift til {{language}}",
+    "english": "Engelsk",
+    "danish": "Dansk"
   }
 }

@@ -4,20 +4,76 @@
   "form": {
     "email": {
       "label": "Email address",
-      "placeholder": "Enter your email address"
+      "placeholder": "Enter your email address",
+      "error": {
+        "required": "Email address is required",
+        "invalid": "Please enter a valid email address",
+        "exists": "This email is already registered"
+      }
     },
     "firstName": {
       "label": "First name",
-      "placeholder": "Enter your first name"
+      "placeholder": "Enter your first name",
+      "error": {
+        "required": "First name is required",
+        "minLength": "First name must be at least 2 characters"
+      }
     },
     "country": {
       "label": "Country",
-      "placeholder": "Select your country"
+      "placeholder": "Select your country",
+      "error": {
+        "required": "Please select your country"
+      }
+    },
+    "consents": {
+      "terms": {
+        "label": "I agree to the Terms & Conditions",
+        "link": "Terms & Conditions",
+        "error": "You must agree to the Terms & Conditions"
+      },
+      "privacy": {
+        "label": "I agree to the Privacy Policy",
+        "link": "Privacy Policy",
+        "error": "You must agree to the Privacy Policy"
+      },
+      "marketing": {
+        "label": "I would like to receive marketing communications",
+        "description": "Get updates about new listings and Waitly features"
+      }
     }
   },
   "actions": {
-    "createAccount": "Create account",
+    "submit": "Create account",
     "sendMagicLink": "Send magic link",
-    "backToSignup": "Back to signup"
+    "backToSignup": "Back to signup",
+    "resendEmail": "Resend verification email"
+  },
+  "existingUser": {
+    "title": "Account already exists",
+    "message": "We found an account with this email address. You can sign in with a magic link instead.",
+    "emailSent": "Magic link sent! Check your email to sign in."
+  },
+  "verification": {
+    "title": "Check your email",
+    "message": "We've sent a verification link to {{email}}. Click the link to activate your account.",
+    "resendMessage": "Didn't receive the email? Check your spam folder or request a new one.",
+    "success": "Email verified successfully!",
+    "error": "Invalid or expired verification link",
+    "expired": "This verification link has expired. Please request a new one."
+  },
+  "ready": {
+    "title": "Welcome to Waitly!",
+    "message": "Your account is ready. Let's help you find your perfect home.",
+    "actions": {
+      "completeProfile": "Complete your profile",
+      "exploreListings": "Explore listings",
+      "browseWaitlists": "Browse waiting lists"
+    }
+  },
+  "locale": {
+    "switchTo": "Switch to {{language}}",
+    "english": "English",
+    "danish": "Danish"
   }
 }
