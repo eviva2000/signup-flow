@@ -6,6 +6,7 @@ export { Button } from './button';
 export { Checkbox } from './checkbox';
 export { Select } from './select';
 export { ErrorMessage } from './error-message';
+export { LanguageSelector } from './language-selector';
 
 export type { InputProps } from './input';
 export type { ButtonProps } from './button';

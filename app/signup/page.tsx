@@ -17,6 +17,7 @@ export default function SignupPage() {
 
   const handleSignupSubmit = async (data: SignupFormData) => {
     setIsLoading(true);
+    
     try {
       console.log('Signup data:', data);
       
@@ -70,10 +71,20 @@ export default function SignupPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       {/* Loading overlay for page transitions */}
       {isPending && (
-        <div className="fixed inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div 
+          className="fixed inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Loading"
+        >
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-gray-600">Loading...</span>
+            <div 
+              className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"
+              aria-hidden="true"
+            ></div>
+            <span className="text-gray-600" aria-live="polite">
+              Loading...
+            </span>
           </div>
         </div>
       )}

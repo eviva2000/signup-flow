@@ -16,7 +16,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Waitly App",
-  description: "Waitly",
+  description: "Waitly - Join apartment waiting lists and find your next home in Denmark",
+  keywords: ["apartment", "waiting list", "housing", "Denmark"],
+  viewport: "width=device-width, initial-scale=1",
+  themeColor: "#2563eb",
 };
 
 export default function RootLayout({
@@ -31,7 +34,9 @@ export default function RootLayout({
       >
         <AuthProvider>
           <LocaleProvider>
-            {children}
+            <main id="main-content">
+              {children}
+            </main>
           </LocaleProvider>
         </AuthProvider>
       </body>

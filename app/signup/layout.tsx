@@ -41,16 +41,10 @@ interface SignupLayoutProps {
 export default function SignupLayout({ children }: SignupLayoutProps) {
   return (
     <LocaleProvider>
-      <div className="signup-layout">
-        {/* Optional: Add signup-specific navigation or header */}
+      <div className="signup-layout min-h-screen">
         <main className="signup-main">
           {children}
         </main>
-        
-        {/* Optional: Add signup-specific footer */}
-        <footer className="signup-footer sr-only">
-          <p>Waitly Signup Process</p>
-        </footer>
       </div>
     </LocaleProvider>
   );

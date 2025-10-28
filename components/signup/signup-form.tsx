@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -53,6 +53,7 @@ export function SignupForm({
   const handleFormSubmit = async (data: unknown) => {
     try {
       setSubmitError(null);
+      
       // Validate and parse the form data using the schema
       const validatedData = signupFormSchema.parse(data);
       await onSubmit(validatedData);
@@ -88,18 +89,32 @@ export function SignupForm({
 
   return (
     <div className="w-full">
-      <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-waitly-neutral-900 mb-2">
+      {/* Form header with proper heading hierarchy */}
+      <header className="mb-8 text-center">
+        <h1 
+          className="text-2xl font-bold text-waitly-neutral-900 mb-2"
+          id="signup-form-title"
+        >
           {t("title")}
         </h1>
-        <p className="text-waitly-neutral-500">{t("subtitle")}</p>
-      </div>
+        <p 
+          className="text-waitly-neutral-500"
+          id="signup-form-description"
+        >
+          {t("subtitle")}
+        </p>
+      </header>
 
       <form
         onSubmit={handleSubmit(handleFormSubmit)}
         className="space-y-6"
         noValidate
+        aria-labelledby="signup-form-title"
+        aria-describedby="signup-form-description"
+        role="form"
       >
+
+
         {/* Email Field */}
         <Input
           {...register("email")}
@@ -136,69 +151,74 @@ export function SignupForm({
         />
 
         {/* Consent Checkboxes */}
-        <div className="space-y-4">
-          <fieldset>
-            <legend className="text-sm font-medium text-waitly-neutral-900 mb-4">
-              Consent and Agreements
-            </legend>
+        <fieldset className="space-y-4">
+          <legend className="text-sm font-medium text-waitly-neutral-900 mb-4">
+            Consent and Agreements
+          </legend>
+          
+          <div className="sr-only">
+            The following checkboxes are for legal agreements. Terms and Privacy Policy are required, Marketing consent is optional.
+          </div>
 
-            {/* Terms & Conditions */}
-            <div className="mb-4">
-              <ConsentCheckbox
-                {...register("consents.terms")}
-                type="terms"
-                checked={watchedConsents.terms}
-                onChange={(e) =>
-                  setValue("consents.terms", e.target.checked, {
-                    shouldValidate: true,
-                  })
-                }
-                error={errors.consents?.terms?.message}
-                disabled={isFormLoading}
-              />
-            </div>
+          {/* Terms & Conditions */}
+          <div className="mb-4">
+            <ConsentCheckbox
+              {...register("consents.terms")}
+              type="terms"
+              checked={watchedConsents.terms}
+              onChange={(e) =>
+                setValue("consents.terms", e.target.checked, {
+                  shouldValidate: true,
+                })
+              }
+              error={errors.consents?.terms?.message}
+              disabled={isFormLoading}
+            />
+          </div>
 
-            {/* Privacy Policy */}
-            <div className="mb-4">
-              <ConsentCheckbox
-                {...register("consents.privacy")}
-                type="privacy"
-                checked={watchedConsents.privacy}
-                onChange={(e) =>
-                  setValue("consents.privacy", e.target.checked, {
-                    shouldValidate: true,
-                  })
-                }
-                error={errors.consents?.privacy?.message}
-                disabled={isFormLoading}
-              />
-            </div>
+          {/* Privacy Policy */}
+          <div className="mb-4">
+            <ConsentCheckbox
+              {...register("consents.privacy")}
+              type="privacy"
+              checked={watchedConsents.privacy}
+              onChange={(e) =>
+                setValue("consents.privacy", e.target.checked, {
+                  shouldValidate: true,
+                })
+              }
+              error={errors.consents?.privacy?.message}
+              disabled={isFormLoading}
+            />
+          </div>
 
-            {/* Marketing Consent */}
-            <div className="mb-4">
-              <ConsentCheckbox
-                {...register("consents.marketing")}
-                type="marketing"
-                checked={watchedConsents.marketing}
-                onChange={(e) =>
-                  setValue("consents.marketing", e.target.checked, {
-                    shouldValidate: true,
-                  })
-                }
-                error={errors.consents?.marketing?.message}
-                disabled={isFormLoading}
-              />
-            </div>
-          </fieldset>
-        </div>
+          {/* Marketing Consent */}
+          <div className="mb-4">
+            <ConsentCheckbox
+              {...register("consents.marketing")}
+              type="marketing"
+              checked={watchedConsents.marketing}
+              onChange={(e) =>
+                setValue("consents.marketing", e.target.checked, {
+                  shouldValidate: true,
+                })
+              }
+              error={errors.consents?.marketing?.message}
+              disabled={isFormLoading}
+            />
+          </div>
+        </fieldset>
 
         {/* Submit Error */}
         {submitError && (
           <div
             role="alert"
-            aria-live="polite"
+            aria-live="assertive"
             className="p-4 bg-red-50 border border-red-200 rounded-waitly-md"
           >
+            <h3 className="text-sm font-medium text-waitly-error mb-1">
+              Error
+            </h3>
             <p className="text-sm text-waitly-error">{submitError}</p>
           </div>
         )}

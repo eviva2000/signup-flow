@@ -114,26 +114,50 @@ export default function EmailVerificationScreen({
     <div className="w-full text-center">
       {status === 'pending' && (
         <>
-          <div className="mb-8">
-            <div className="w-16 h-16 bg-waitly-primary-light rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-waitly-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <header className="mb-8">
+            <div 
+              className="w-16 h-16 bg-waitly-primary-light rounded-full flex items-center justify-center mx-auto mb-4"
+              role="img"
+              aria-label="Email verification"
+            >
+              <svg 
+                className="w-8 h-8 text-waitly-primary" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-waitly-neutral-900 mb-2">
-              {t('verification.title')}
+            <h1 
+              className="text-2xl font-bold text-waitly-neutral-900 mb-2"
+              id="verification-title"
+            >
+              Check Your Email
             </h1>
-            <p className="text-waitly-neutral-500 mb-4">
-              {t('verification.message', { email })}
+            <p 
+              className="text-waitly-neutral-500 mb-4"
+              id="verification-description"
+            >
+              We&apos;ve sent a verification code to <span className="font-mono font-medium">{email}</span>
             </p>
             <p className="text-sm text-waitly-neutral-400 mb-6">
               For testing: Check the browser console for the verification link, then copy and paste the token below.
             </p>
-          </div>
+          </header>
 
-          <form onSubmit={handleCodeSubmit} className="space-y-4 mb-6">
+          <form 
+            onSubmit={handleCodeSubmit} 
+            className="space-y-4 mb-6"
+            aria-labelledby="verification-title"
+            aria-describedby="verification-description"
+          >
             <div>
-              <label htmlFor="verification-code" className="sr-only">
+              <label 
+                htmlFor="verification-code" 
+                className="block text-sm font-medium text-waitly-neutral-900 mb-2 text-left"
+              >
                 Verification Token
               </label>
               <input
@@ -144,8 +168,12 @@ export default function EmailVerificationScreen({
                 placeholder="Paste verification token here"
                 className="w-full px-4 py-3 border border-waitly-neutral-300 rounded-waitly-radius-md focus:ring-2 focus:ring-waitly-primary focus:border-transparent text-sm font-mono"
                 autoComplete="one-time-code"
-                aria-describedby={errorMessage ? "verification-error" : undefined}
+                aria-describedby={errorMessage ? "verification-error verification-help" : "verification-help"}
+                aria-invalid={errorMessage ? "true" : "false"}
               />
+              <div id="verification-help" className="sr-only">
+                Enter the verification token from your email to confirm your account.
+              </div>
               {errorMessage && (
                 <p id="verification-error" className="mt-2 text-sm text-red-600" role="alert">
                   {errorMessage}
@@ -158,41 +186,68 @@ export default function EmailVerificationScreen({
               variant="primary"
               className="w-full"
               disabled={!verificationCode.trim()}
+              aria-describedby="verify-help"
             >
               Verify Email
             </Button>
+            <div id="verify-help" className="sr-only">
+              Submit the verification token to confirm your email address and activate your account.
+            </div>
           </form>
 
-          <div className="space-y-4">
+          <div 
+            className="space-y-4"
+            role="group"
+            aria-label="Additional verification options"
+          >
             <Button
               onClick={handleResendVerification}
               variant="secondary"
               className="w-full"
               disabled={isResending || resendCooldown > 0}
+              aria-describedby="resend-help"
+              aria-live="polite"
             >
               {isResending 
                 ? 'Sending...' 
                 : resendCooldown > 0 
                   ? `Resend in ${resendCooldown}s`
-                  : t('actions.resendEmail')
+                  : 'Resend Verification Email'
               }
             </Button>
+            <div id="resend-help" className="sr-only">
+              {resendCooldown > 0 
+                ? `Resend is available in ${resendCooldown} seconds.`
+                : 'Send a new verification email if you haven\'t received one.'
+              }
+            </div>
             
             <Button
               onClick={onBackToSignup}
               variant="ghost"
-              className="w-full"
+              className="w-full touch-target"
+              aria-describedby="back-help"
             >
-              {t('actions.backToSignup')}
+              Back to Signup
             </Button>
+            <div id="back-help" className="sr-only">
+              Return to the signup form to create an account with a different email address.
+            </div>
           </div>
         </>
       )}
 
       {status === 'verifying' && (
         <>
-          <div className="mb-8">
-            <div className="w-16 h-16 border-4 border-waitly-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div 
+            className="mb-8"
+            role="status"
+            aria-live="polite"
+          >
+            <div 
+              className="w-16 h-16 border-4 border-waitly-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"
+              aria-hidden="true"
+            ></div>
             <h1 className="text-2xl font-bold text-waitly-neutral-900 mb-2">
               Verifying your email...
             </h1>
@@ -205,14 +260,28 @@ export default function EmailVerificationScreen({
 
       {status === 'success' && (
         <>
-          <div className="mb-8">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div 
+            className="mb-8"
+            role="status"
+            aria-live="polite"
+          >
+            <div 
+              className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+              role="img"
+              aria-label="Success"
+            >
+              <svg 
+                className="w-8 h-8 text-green-600" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
             <h1 className="text-2xl font-bold text-waitly-neutral-900 mb-2">
-              {t('verification.success')}
+              Email Verified Successfully!
             </h1>
             <p className="text-waitly-neutral-500">
               Redirecting you to complete your setup...
@@ -224,20 +293,38 @@ export default function EmailVerificationScreen({
       {status === 'error' && (
         <>
           <div className="mb-8">
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div 
+              className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"
+              role="img"
+              aria-label="Error"
+            >
+              <svg 
+                className="w-8 h-8 text-red-600" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
             <h1 className="text-2xl font-bold text-waitly-neutral-900 mb-2">
-              Verification failed
+              Verification Failed
             </h1>
-            <p className="text-waitly-neutral-500 mb-6">
-              {errorMessage || t('verification.error')}
-            </p>
+            <div
+              role="alert"
+              aria-live="assertive"
+              className="text-waitly-neutral-500 mb-6"
+            >
+              {errorMessage || 'The verification token is invalid or has expired.'}
+            </div>
           </div>
 
-          <div className="space-y-4">
+          <div 
+            className="space-y-4"
+            role="group"
+            aria-label="Error recovery options"
+          >
             <Button
               onClick={() => {
                 setStatus('pending');
@@ -247,7 +334,7 @@ export default function EmailVerificationScreen({
               variant="primary"
               className="w-full"
             >
-              Try again
+              Try Again
             </Button>
             
             <Button
@@ -255,12 +342,13 @@ export default function EmailVerificationScreen({
               variant="secondary"
               className="w-full"
               disabled={isResending || resendCooldown > 0}
+              aria-live="polite"
             >
               {isResending 
                 ? 'Sending...' 
                 : resendCooldown > 0 
                   ? `Resend in ${resendCooldown}s`
-                  : 'Send new verification email'
+                : 'Send New Verification Email'
               }
             </Button>
             
@@ -269,7 +357,7 @@ export default function EmailVerificationScreen({
               variant="ghost"
               className="w-full"
             >
-              {t('actions.backToSignup')}
+              Back to Signup
             </Button>
           </div>
         </>
