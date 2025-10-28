@@ -90,14 +90,19 @@ export default function SignupPage() {
       )}
       
       {/* Main card container */}
-      <div className="w-full max-w-md">
-        {/* Language selector above the card */}
-        <div className="flex justify-end mb-6">
+      <div className="w-full max-w-[600px]">
+        {/* Logo and Language selector above the card */}
+        <div className="flex justify-between items-center mb-6">
+          <img 
+            src="/logo-dark.png" 
+            alt="Waitly Logo" 
+            className="h-8 w-auto"
+          />
           <LanguageSelector />
         </div>
         
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-10">
           {showExistingUser ? (
             <ExistingUserPrompt
               email={existingUserEmail}

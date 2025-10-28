@@ -4,12 +4,12 @@ import { LocaleProvider } from '@/lib/i18n';
 export const metadata: Metadata = {
   title: {
     template: '%s | Waitly Signup',
-    default: 'Sign Up - Waitly',
+    default: 'Register - Waitly',
   },
   description: 'Join Waitly to get on apartment waiting lists and find your next home in Denmark.',
   keywords: ['apartment', 'waiting list', 'housing', 'Denmark', 'signup', 'registration'],
   openGraph: {
-    title: 'Sign Up - Waitly',
+    title: 'Register - Waitly',
     description: 'Join Waitly to get on apartment waiting lists and find your next home in Denmark.',
     type: 'website',
     siteName: 'Waitly',
