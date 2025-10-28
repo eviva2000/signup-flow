@@ -1,5 +1,6 @@
 export { cn } from './cn';
 export * from './data-helpers';
+export * from './verification';
 
 // Email validation utility with comprehensive checks
 export function isValidEmail(email: string): boolean {

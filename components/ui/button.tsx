@@ -46,20 +46,20 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
           // Color variants
           {
-            // Primary
-            "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500":
+            // Primary - Waitly brand colors
+            "bg-waitly-primary text-waitly-primary-text hover:bg-waitly-primary-hover focus:ring-waitly-primary":
               variant === "primary",
 
-            // Secondary
-            "bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500":
+            // Secondary - Waitly neutral colors
+            "bg-waitly-neutral-100 text-waitly-neutral-900 hover:bg-waitly-neutral-200 focus:ring-waitly-primary":
               variant === "secondary",
 
-            // Outline
-            "border border-gray-300 bg-white text-gray-900 hover:bg-gray-50 focus:ring-blue-500":
+            // Outline - Waitly neutral with primary focus
+            "border border-waitly-neutral-300 bg-white text-waitly-neutral-900 hover:bg-waitly-neutral-50 focus:ring-waitly-primary":
               variant === "outline",
 
-            // Ghost
-            "text-gray-900 hover:bg-gray-100 focus:ring-gray-500":
+            // Ghost - Waitly neutral colors
+            "text-waitly-neutral-900 hover:bg-waitly-neutral-100 focus:ring-waitly-primary":
               variant === "ghost",
           },
 

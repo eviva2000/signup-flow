@@ -1,10 +1,11 @@
-import type { Metadata } from 'next';
-import { Suspense } from 'react';
-import ReadyPageContent from './ready-content';
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import ReadyPageContent from "./ready-content";
 
 export const metadata: Metadata = {
-  title: 'Welcome to Waitly!',
-  description: 'Your Waitly account is ready. Start exploring apartment waiting lists and find your next home.',
+  title: "Welcome to Waitly!",
+  description:
+    "Your Waitly account is ready. Start exploring apartment waiting lists and find your next home.",
   robots: {
     index: false,
     follow: false,
@@ -21,9 +22,7 @@ function ReadyPageLoading() {
           <h1 className="text-2xl font-bold text-waitly-neutral-900 mb-2">
             Preparing your account...
           </h1>
-          <p className="text-waitly-neutral-500">
-            Almost ready!
-          </p>
+          <p className="text-waitly-neutral-500">Almost ready!</p>
         </div>
       </div>
     </div>

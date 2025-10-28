@@ -8,6 +8,7 @@ export type SignupStep = 'signup' | 'verify' | 'ready';
 export interface SignupNavigationOptions {
   email?: string | undefined;
   token?: string | undefined;
+  name?: string | undefined;
   replace?: boolean;
 }
 
@@ -16,9 +17,10 @@ export function useSignupNavigation() {
   const [isPending, startTransition] = useTransition();
 
   const navigateToStep = (step: SignupStep, options: SignupNavigationOptions = {}) => {
-    const { email, token, replace = false } = options;
+    const { email, token, name, replace = false } = options;
     
     let url = `/signup`;
+    const params = new URLSearchParams();
     
     switch (step) {
       case 'signup':
@@ -27,22 +29,31 @@ export function useSignupNavigation() {
       case 'verify':
         url = '/signup/verify';
         if (email) {
-          url += `?email=${encodeURIComponent(email)}`;
+          params.set('email', email);
         }
         if (token) {
-          url += `${email ? '&' : '?'}token=${encodeURIComponent(token)}`;
+          params.set('token', token);
         }
         break;
       case 'ready':
         url = '/signup/ready';
+        if (name) {
+          params.set('name', name);
+        }
         break;
+    }
+
+    // Add query parameters if any exist
+    const queryString = params.toString();
+    if (queryString) {
+      url += `?${queryString}`;
     }
 
     startTransition(() => {
       if (replace) {
-        router.replace(url as any);
+        router.replace(url as never);
       } else {
-        router.push(url as any);
+        router.push(url as never);
       }
     });
   };
@@ -55,8 +66,8 @@ export function useSignupNavigation() {
     navigateToStep('verify', { ...options, email });
   };
 
-  const goToReady = (options?: SignupNavigationOptions) => {
-    navigateToStep('ready', options);
+  const goToReady = (name?: string, options?: Omit<SignupNavigationOptions, 'name'>) => {
+    navigateToStep('ready', { ...options, name });
   };
 
   const goBack = () => {
@@ -67,7 +78,7 @@ export function useSignupNavigation() {
 
   const goHome = () => {
     startTransition(() => {
-      router.push('/' as any);
+      router.push('/' as never);
     });
   };
 
