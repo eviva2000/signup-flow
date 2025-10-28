@@ -29,11 +29,11 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               aria-describedby={describedBy}
               aria-required={required}
               className={cn(
-                "h-5 w-5 rounded-waitly-radius-sm border-2 border-waitly-neutral-300",
-                "text-waitly-primary focus:ring-2 focus:ring-waitly-primary focus:ring-offset-2",
+                "h-5 w-5 rounded border-2 border-gray-300",
+                "text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
                 "transition-colors duration-200",
                 "disabled:cursor-not-allowed disabled:opacity-50",
-                error && "border-waitly-error focus:ring-waitly-error",
+                error && "border-red-500 focus:ring-red-500",
                 className
               )}
               {...props}
@@ -62,14 +62,14 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               <label
                 htmlFor={checkboxId}
                 className={cn(
-                  "block text-sm font-medium text-waitly-neutral-900 cursor-pointer",
-                  required && "after:content-['*'] after:ml-0.5 after:text-waitly-error"
+                  "block text-sm font-medium text-gray-900 cursor-pointer",
+                  required && "after:content-['*'] after:ml-0.5 after:text-red-500"
                 )}
               >
                 {label}
               </label>
               {description && (
-                <p id={descriptionId} className="mt-1 text-sm text-waitly-neutral-500">
+                <p id={descriptionId} className="mt-1 text-sm text-gray-500">
                   {description}
                 </p>
               )}
@@ -82,7 +82,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             id={errorId}
             role="alert"
             aria-live="polite"
-            className="text-sm text-waitly-error ml-8"
+            className="text-sm text-red-500 ml-8"
           >
             {error}
           </p>

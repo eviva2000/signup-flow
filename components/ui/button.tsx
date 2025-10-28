@@ -1,24 +1,28 @@
-import React, { forwardRef } from 'react';
-import { cn } from '@/lib/utils';
+import React, { forwardRef } from "react";
+import { cn } from "@/lib/utils";
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "primary" | "secondary" | "outline" | "ghost";
+  size?: "sm" | "md" | "lg";
   loading?: boolean;
   loadingText?: string;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ 
-    className, 
-    variant = 'primary', 
-    size = 'md', 
-    loading = false, 
-    loadingText,
-    disabled,
-    children,
-    ...props 
-  }, ref) => {
+  (
+    {
+      className,
+      variant = "primary",
+      size = "md",
+      loading = false,
+      loadingText,
+      disabled,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const isDisabled = disabled || loading;
 
     return (
@@ -28,37 +32,37 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         aria-disabled={isDisabled}
         className={cn(
           // Base styles
-          "inline-flex items-center justify-center rounded-waitly-radius-md font-medium",
+          "inline-flex items-center justify-center rounded-md font-medium",
           "focus:outline-none focus:ring-2 focus:ring-offset-2",
           "transition-all duration-200",
           "disabled:cursor-not-allowed disabled:opacity-50",
-          
+
           // Size variants
           {
-            'h-8 px-3 text-sm': size === 'sm',
-            'h-12 px-4 text-base': size === 'md',
-            'h-14 px-6 text-lg': size === 'lg',
+            "h-8 px-3 text-sm": size === "sm",
+            "h-12 px-4 text-base": size === "md",
+            "h-14 px-6 text-lg": size === "lg",
           },
-          
+
           // Color variants
           {
             // Primary
-            'bg-waitly-primary text-white hover:bg-waitly-primary-hover focus:ring-waitly-primary': 
-              variant === 'primary',
-            
+            "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500":
+              variant === "primary",
+
             // Secondary
-            'bg-waitly-neutral-100 text-waitly-neutral-900 hover:bg-waitly-neutral-200 focus:ring-waitly-neutral-500': 
-              variant === 'secondary',
-            
+            "bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500":
+              variant === "secondary",
+
             // Outline
-            'border border-waitly-neutral-300 bg-white text-waitly-neutral-900 hover:bg-waitly-neutral-50 focus:ring-waitly-primary': 
-              variant === 'outline',
-            
+            "border border-gray-300 bg-white text-gray-900 hover:bg-gray-50 focus:ring-blue-500":
+              variant === "outline",
+
             // Ghost
-            'text-waitly-neutral-900 hover:bg-waitly-neutral-100 focus:ring-waitly-neutral-500': 
-              variant === 'ghost',
+            "text-gray-900 hover:bg-gray-100 focus:ring-gray-500":
+              variant === "ghost",
           },
-          
+
           className
         )}
         {...props}
@@ -86,7 +90,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             />
           </svg>
         )}
-        <span className={loading ? 'sr-only' : undefined}>
+        <span className={loading ? "sr-only" : undefined}>
           {loading && loadingText ? loadingText : children}
         </span>
         {loading && loadingText && (
@@ -99,6 +103,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-Button.displayName = 'Button';
+Button.displayName = "Button";
 
 export { Button };

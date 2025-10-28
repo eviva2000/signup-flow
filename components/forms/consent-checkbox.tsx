@@ -22,7 +22,7 @@ const ConsentCheckbox = forwardRef<HTMLInputElement, ConsentCheckboxProps>(
                 href={termsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-waitly-primary hover:text-waitly-primary-hover underline focus:outline-none focus:ring-2 focus:ring-waitly-primary focus:ring-offset-1 rounded"
+                className="text-blue-600 hover:text-blue-700 underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
               >
                 {t('form.consents.terms.link')}
               </a>
@@ -36,7 +36,7 @@ const ConsentCheckbox = forwardRef<HTMLInputElement, ConsentCheckboxProps>(
                 href={privacyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-waitly-primary hover:text-waitly-primary-hover underline focus:outline-none focus:ring-2 focus:ring-waitly-primary focus:ring-offset-1 rounded"
+                className="text-blue-600 hover:text-blue-700 underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
               >
                 {t('form.consents.privacy.link')}
               </a>

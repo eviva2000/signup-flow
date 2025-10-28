@@ -37,9 +37,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <label
             htmlFor={inputId}
             className={cn(
-              "block text-sm font-medium text-waitly-neutral-900",
+              "block text-sm font-medium text-gray-900",
               required &&
-                "after:content-['*'] after:ml-0.5 after:text-waitly-error"
+                "after:content-['*'] after:ml-0.5 after:text-red-500"
             )}
           >
             {label}
@@ -53,18 +53,18 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           aria-describedby={describedBy}
           aria-required={required}
           className={cn(
-            "flex h-12 w-full rounded-waitly-radius-md border border-waitly-neutral-300 bg-white px-3 py-2 text-sm",
-            "placeholder:text-waitly-neutral-500",
-            "focus:outline-none focus:ring-2 focus:ring-waitly-primary focus:border-transparent",
+            "flex h-12 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm",
+            "placeholder:text-gray-500",
+            "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
             "disabled:cursor-not-allowed disabled:opacity-50",
             "transition-colors duration-200",
-            error && "border-waitly-error focus:ring-waitly-error",
+            error && "border-red-500 focus:ring-red-500",
             className
           )}
           {...props}
         />
         {helperText && !error && (
-          <p id={helperId} className="text-sm text-waitly-neutral-500">
+          <p id={helperId} className="text-sm text-gray-500">
             {helperText}
           </p>
         )}
@@ -73,7 +73,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             id={errorId}
             role="alert"
             aria-live="polite"
-            className="text-sm text-waitly-error"
+            className="text-sm text-red-500"
           >
             {error}
           </p>

@@ -31,7 +31,7 @@
   - Build error message component with screen reader announcements
   - _Requirements: 1.4, 3.2, 7.2, 7.4_
 
-- [ ] 5. Implement signup form component
+- [x] 5. Implement signup form component
 
   - Create SignupForm component with React Hook Form integration
   - Implement real-time validation with Zod schemas
@@ -125,7 +125,7 @@
   - Test color contrast ratios and focus indicators
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
 
-- [ ] 12. Create main signup page and routing
+- [x] 12. Create main signup page and routing
 
   - Build main signup page at /signup with proper meta tags
   - Implement client-side routing between signup flow states
